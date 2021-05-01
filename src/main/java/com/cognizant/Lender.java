@@ -4,23 +4,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Lender {
-    private double availableFunds=5000;
+    private double availableFunds;
     private double amount;
-    private double totalFunds=5000;//Initial Amount of the Lender
+    private double totalFunds;
     private List<Customer> custLst = new ArrayList<>();
     private String qualification;
     private String status;
     private double loanAmount;
 
-    public double availableFunds() {
+    public double getAvailableFunds() {
 
        return availableFunds;
+    }
+
+    public void setAvailableFunds(double availableFunds) {
+        this.availableFunds = availableFunds;
     }
 
     public double depositFunds(double amount) {
         availableFunds = availableFunds + amount;
         totalFunds = totalFunds + amount;
         return availableFunds;
+    }
+
+    public double getTotalFunds() {
+        return totalFunds;
+    }
+
+    public void setTotalFunds(double totalFunds) {
+        this.totalFunds = totalFunds;
     }
 
     public void addCustomer(Customer customer) {
@@ -68,4 +80,23 @@ public class Lender {
        return status;
     }
 
+    public String approveLoan(Loan loan,Customer customer) {
+        double availFunds=getAvailableFunds();
+        String message="";
+        if(customer.getStatus().equals("qualified")) {
+
+            if (availFunds > 0 && loan.getLoanAmt() < availFunds) {
+                loan.setLoanStatus("approved");
+                message="Loan approved";
+            }else if (availFunds > 0 && loan.getLoanAmt() > availFunds) {
+                    loan.setLoanStatus("on hold");
+                    message="Loan is on hold";
+
+            }
+
+        } else{
+            message ="Customer is not qualified for the Loan";
+        }
+        return message;
+    }
 }
