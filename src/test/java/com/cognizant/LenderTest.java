@@ -28,7 +28,6 @@ public class LenderTest {
     void testEvaluateLoanApplication(){
         Lender lender=new Lender();
         Customer customer = new Customer(1001,200000,25,700,100000);
-        lender.addCustomer(customer);
         assertEquals("qualified", lender.evaluateLoanApplication(customer));
 
     }

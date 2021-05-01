@@ -59,7 +59,12 @@ public class Lender {
        customer.setQualification(qualification);
        customer.setLoanAmt(loanAmount);
        customer.setStatus(status);
-       custLst.add(customer);
+       addCustomer(customer);
+       //custLst.add(customer);
+//       for(int i=0; i< custLst.size(); i++){
+//           Customer cust = custLst.get(i);
+//           System.out.println(cust.getCustId());
+//       }
        return status;
     }
 
