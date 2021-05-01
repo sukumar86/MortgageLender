@@ -11,6 +11,7 @@ public class Lender {
     private double amount;
     private double totalFunds;
     private List<Customer> custLst = new ArrayList<>();
+    private List<Loan> loanLst = new ArrayList<>();
     private String qualification;
     private String status;
     private double loanAmount;
@@ -49,6 +50,10 @@ public class Lender {
 
     public void addCustomer(Customer customer) {
         custLst.add(customer);
+    }
+
+    public void addLoan(Loan loan) {
+        loanLst.add(loan);
     }
 
     public String evaluateLoanApplication(Customer customer) {
@@ -111,7 +116,7 @@ public class Lender {
                     message="Loan is on hold";
 
             }
-
+            addLoan(loan);
         } else{
             message ="Customer is not qualified for the Loan";
         }
@@ -127,6 +132,7 @@ public class Lender {
             setAvailableFunds(getAvailableFunds() + loan.getLoanAmt());
             loan.setLoanStatus("rejected");
         }
+            addLoan(loan);
             return loan.getLoanStatus();
     }
 
@@ -148,7 +154,24 @@ public class Lender {
             setAvailableFunds(getAvailableFunds() + loan.getLoanAmt());
             loan.setLoanStatus("expired");
         }
-         return loan.getLoanStatus();
+        addLoan(loan);
+        return loan.getLoanStatus();
 
+    }
+
+    public List<Loan> getLoans(String status) {
+        List<Loan> lst = new ArrayList<>();
+        System.out.println("Loan list  : "+loanLst.size());
+        System.out.println("Status  : "+status);
+        //if (loanLst.contains(status)){
+            for(int i=0; i< loanLst.size(); i++) {
+                System.out.println("inside for   : ");
+                Loan ln = loanLst.get(i);
+                if(ln.getLoanStatus().equals(status)) {
+                    lst.add(ln);
+                }
+            }
+      //  }
+        return lst;
     }
 }
