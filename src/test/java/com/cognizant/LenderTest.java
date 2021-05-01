@@ -78,6 +78,33 @@ public class LenderTest {
         assertEquals(300000,lender.getAvailableFunds());
 
     }
+    @Test
+    void testApproveLoanAcceptCase() {
+        Lender lender = new Lender();
+        lender.setAvailableFunds(500000);
+        Customer customer = new Customer(1001, 200000, 25, 700, 100000);
+        lender.evaluateLoanApplication(customer);
+        Loan loan = new Loan(1001, 200000, "approved");
+        lender.approveLoan(loan, customer);
+        customer.setStatus("accepted");
+        assertEquals("accepted", lender.disburseLoan(customer.getStatus(), loan));
+    }
+    @Test
+    void testApproveLoanRejectCase() {
+        Lender lender = new Lender();
+        lender.setAvailableFunds(500000);
+        Customer customer = new Customer(1001, 200000, 25, 700, 100000);
+        lender.evaluateLoanApplication(customer);
+        Loan loan = new Loan(1001, 200000, "approved");
+        lender.approveLoan(loan, customer);
+        assertEquals(300000,lender.getAvailableFunds());
+        assertEquals(200000,lender.getPendingFunds());
+        customer.setStatus("rejected");
+        assertEquals("rejected", lender.disburseLoan(customer.getStatus(), loan));
+        assertEquals(500000,lender.getAvailableFunds());
+        assertEquals(0,lender.getPendingFunds());
+
+    }
 
 }
 

@@ -111,4 +111,16 @@ public class Lender {
         }
         return message;
     }
+
+    public String disburseLoan(String status,Loan loan) {
+        if(status.equalsIgnoreCase("accepted")){
+           setPendingFunds(getPendingFunds() - loan.getLoanAmt());
+           loan.setLoanStatus("accepted");
+        }else if(status.equalsIgnoreCase("rejected")){
+            setPendingFunds(getPendingFunds() - loan.getLoanAmt());
+            setAvailableFunds(getAvailableFunds() + loan.getLoanAmt());
+            loan.setLoanStatus("rejected");
+        }
+            return loan.getLoanStatus();
+    }
 }
