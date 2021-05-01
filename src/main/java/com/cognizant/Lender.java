@@ -11,6 +11,7 @@ public class Lender {
     private String qualification;
     private String status;
     private double loanAmount;
+    private double pendingFunds;
 
     public double getAvailableFunds() {
 
@@ -33,6 +34,14 @@ public class Lender {
 
     public void setTotalFunds(double totalFunds) {
         this.totalFunds = totalFunds;
+    }
+
+    public double getPendingFunds() {
+        return pendingFunds;
+    }
+
+    public void setPendingFunds(double pendingFunds) {
+        this.pendingFunds = pendingFunds;
     }
 
     public void addCustomer(Customer customer) {
@@ -87,6 +96,9 @@ public class Lender {
 
             if (availFunds > 0 && loan.getLoanAmt() < availFunds) {
                 loan.setLoanStatus("approved");
+                setPendingFunds(loan.getLoanAmt());
+                availFunds = availFunds - loan.getLoanAmt();
+                setAvailableFunds(availFunds);
                 message="Loan approved";
             }else if (availFunds > 0 && loan.getLoanAmt() > availFunds) {
                     loan.setLoanStatus("on hold");

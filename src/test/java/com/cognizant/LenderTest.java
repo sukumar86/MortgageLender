@@ -66,5 +66,18 @@ public class LenderTest {
         Loan loan =new Loan(1001,0,"denied");
         assertEquals("Customer is not qualified for the Loan",lender.approveLoan(loan, customer));
     }
+    @Test
+    void testPendingFunds(){
+        Lender lender=new Lender();
+        lender.setAvailableFunds(500000);
+        Customer customer = new Customer(1001,200000,25,700,100000);
+        lender.evaluateLoanApplication(customer);
+        Loan loan =new Loan(1001,200000,"approved");
+        lender.approveLoan(loan, customer);
+        assertEquals(200000,lender.getPendingFunds());
+        assertEquals(300000,lender.getAvailableFunds());
+
+    }
+
 }
 
