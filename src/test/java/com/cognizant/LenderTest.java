@@ -17,5 +17,21 @@ public class LenderTest {
         assertEquals(6000.0,lender.depositFunds(1000.00));
     }
 
+    @Test
+    void testAcceptLoanApplication(){
+       Lender lender=new Lender();
+       Customer customer = new Customer(1001,200000,25,700,100000);
+       lender.addCustomer(customer);
+       assertEquals(1001, customer.getCustId());
+    }
+    @Test
+    void testEvaluateLoanApplication(){
+        Lender lender=new Lender();
+        Customer customer = new Customer(1001,200000,25,700,100000);
+        lender.addCustomer(customer);
+        assertEquals("qualified", lender.evaluateLoanApplication(customer));
+
+    }
+
 }
 
