@@ -1,7 +1,10 @@
 package com.cognizant;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.time.temporal.ChronoUnit;
+
 
 public class Lender {
     private double availableFunds;
@@ -99,6 +102,9 @@ public class Lender {
                 setPendingFunds(loan.getLoanAmt());
                 availFunds = availFunds - loan.getLoanAmt();
                 setAvailableFunds(availFunds);
+                Date date = new Date();
+                System.out.println("Date:" +date);
+                loan.setLoanApproveDate(date);
                 message="Loan approved";
             }else if (availFunds > 0 && loan.getLoanAmt() > availFunds) {
                     loan.setLoanStatus("on hold");
@@ -122,5 +128,27 @@ public class Lender {
             loan.setLoanStatus("rejected");
         }
             return loan.getLoanStatus();
+    }
+
+    public String manageExpireLoan(Date loanDate, Loan loan) {
+        Date today = new Date();
+        long date1InMs = loanDate.getTime();
+        long date2InMs = today.getTime();
+        long timeDiff = 0;
+        if(date1InMs > date2InMs) {
+            timeDiff = date1InMs - date2InMs;
+        } else {
+            timeDiff = date2InMs - date1InMs;
+        }
+        int daysDiff = (int) (timeDiff / (1000 * 60 * 60* 24));
+        System.out.println("No of days diff is : "+daysDiff);
+
+        if(daysDiff > 3){
+            setPendingFunds(getPendingFunds() - loan.getLoanAmt());
+            setAvailableFunds(getAvailableFunds() + loan.getLoanAmt());
+            loan.setLoanStatus("expired");
+        }
+         return loan.getLoanStatus();
+
     }
 }

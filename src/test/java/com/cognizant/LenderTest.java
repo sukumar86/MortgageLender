@@ -1,6 +1,9 @@
 package com.cognizant;
 
 import org.junit.jupiter.api.Test;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -105,6 +108,26 @@ public class LenderTest {
         assertEquals(0,lender.getPendingFunds());
 
     }
+
+    @Test
+    void testManageUndecidedLoan() throws ParseException {
+        Lender lender=new Lender();
+        lender.setAvailableFunds(500000);
+        Customer customer = new Customer(1001,250000,25,700,100000);
+       lender.evaluateLoanApplication(customer);
+        Loan loan =new Loan(1001,250000,"approved");
+
+        assertEquals("Loan approved",lender.approveLoan(loan, customer));
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+        String dateInString = "25-04-2021 10:20:56";
+        Date date = sdf.parse(dateInString);
+
+        loan.setLoanApproveDate(date);
+        assertEquals("expired", lender.manageExpireLoan(loan.getLoanApproveDate(),loan));
+        assertEquals(500000,lender.getAvailableFunds());
+        assertEquals(0,lender.getPendingFunds());
+    }
+
 
 }
 
